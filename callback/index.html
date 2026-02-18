@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QBO Authorization</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 520px; margin: 80px auto; padding: 0 20px; text-align: center; color: #333; }
+        .code-box { background: #f4f4f4; border: 2px solid #333; border-radius: 8px; padding: 16px; margin: 20px 0; font-family: monospace; font-size: 14px; word-break: break-all; user-select: all; }
+        .label { font-weight: bold; margin-top: 16px; }
+        .error { color: #c00; }
+        .success { color: #080; }
+    </style>
+</head>
+<body>
+    <h1>QBO Authorization</h1>
+    <div id="result"></div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        const realmId = params.get('realmId');
+        const error = params.get('error');
+        const el = document.getElementById('result');
+
+        if (error) {
+            el.innerHTML = '<p class="error">Authorization failed: ' + error + '</p>';
+        } else if (code) {
+            el.innerHTML =
+                '<p class="success">Authorization successful!</p>' +
+                '<p class="label">Code:</p><div class="code-box">' + code + '</div>' +
+                '<p class="label">Realm ID:</p><div class="code-box">' + (realmId || 'N/A') + '</div>' +
+                '<p>Copy both values and paste them in your terminal.</p>';
+        } else {
+            el.innerHTML = '<p class="error">No authorization code received.</p>';
+        }
+    </script>
+</body>
+</html>
